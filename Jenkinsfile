@@ -1,29 +1,27 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Build') {
             steps {
-                script {
-                    echo 'Building the project...'
-                    sh 'make -C main'
-                }
+                sh 'g++ -o hello_exec main/hello.cpp'
             }
         }
-
         stage('Test') {
             steps {
-                script {
-                    echo 'Running tests...'
-                    sh 'cd /var/jenkins_home/workspace/PES2UG22CS331-N/main/ && ./hello_exec'
-                }
+                sh './hello_exec'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying Application...'
             }
         }
     }
-
+    
     post {
         failure {
-            echo 'Pipeline failed'
+            echo 'Pipeline Failed!'
         }
     }
 }
